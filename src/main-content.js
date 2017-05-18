@@ -21,6 +21,10 @@ export default class MainContent extends Component {
     if (!gifs) {
       return <div>Click a gif topic</div>
     }
-    return <GifGrid gifs={gifs} />
+    return (
+      <div className='panel'>
+        <GifGrid gifs={gifs} />
+      </div>
+    )
   }
 }

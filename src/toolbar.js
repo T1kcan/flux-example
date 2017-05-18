@@ -23,16 +23,34 @@ class GifStore extends Store {
   }
 }
 
+const store = new GifStore()
+
 class Toolbar extends Component {
+  state = { searchText: '' }
+  onSearchChange = (e) => {
+    const { value } = e.target
+    this.setState({ searchText: value })
+  }
+
+  onSearchSubmit = (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+    alert(`I should search for ${this.state.searchText}`)
+  }
+
   render() {
-    const {classes } = this.props
+    const { classes } = this.props
+    const { searchText } = this.state
+
     return (
       <div className={classes.container}>
         <h3 className={classes.name}>My App</h3>
-        <form>
-          <input 
-            className='input' 
-            placeholder='Search' 
+        <form onSubmit={this.onSearchSubmit}>
+          <input
+            className='input'
+            placeholder='Search'
+            value={searchText}
+            onChange={this.onSearchChange}
           />
         </form>
       </div>

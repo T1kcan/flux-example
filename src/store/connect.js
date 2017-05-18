@@ -2,6 +2,7 @@ import React from 'react'
 
 const connect = store => ChildComponent => {
   const actions = { }
+
   Object
     .getOwnPropertyNames(store.constructor.prototype)
     .filter(x => x != 'constructor')
@@ -17,7 +18,12 @@ const connect = store => ChildComponent => {
     }
 
     render() {
-      return React.createElement(ChildComponent, { ...this.state, ...actions, ...this.props }, this.props.children)
+      const childProps = {
+        ...this.state,
+        ...actions,
+        ...this.props,
+      }
+      return React.createElement(ChildComponent, childProps, this.props.children)
     }
   }
 }

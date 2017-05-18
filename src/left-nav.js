@@ -9,11 +9,14 @@ const searchStrings = [
 
 export default class LeftNav extends Component {
   render() {
-    const buttons = searchStrings.map(str => (
-      <a key={str} className='panel-block' onClick={() => alert('help!')}>
-      {str}
-      </a>
-    ))
+    const buttons = searchStrings.map(str => {
+      const onClick = () => alert(`I should search for ${str}`)
+      return (
+        <a key={str} className='panel-block' onClick={onClick}>
+        {str}
+        </a>
+      )
+    })
 
     return (
       <div className='panel'>
