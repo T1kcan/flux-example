@@ -43,6 +43,7 @@ const sheet = {
 class App extends Component {
   render() {
     const { classes } = this.props
+
     return (
       <div className={classes.container}>
         <div className={classes.toolbar}>
@@ -53,7 +54,7 @@ class App extends Component {
             <LeftNav />
           </div>
           <div className={classes.mainContent}>
-            <MainContent />
+            <MainContent selectGifById={(id) => alert(id)}/>
           </div>
         </div>
       </div>

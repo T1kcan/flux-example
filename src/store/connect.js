@@ -1,4 +1,5 @@
 import React from 'react'
+import hoistNonReactStatic from 'hoist-non-react-statics';
 
 const connect = store => ChildComponent => {
 
@@ -33,7 +34,7 @@ const connect = store => ChildComponent => {
     }
   }
 
-  // TODO - hoist non-react statics
+  hoistNonReactStatic(ConnectedComponent, ChildComponent)
 
   return ConnectedComponent
 }

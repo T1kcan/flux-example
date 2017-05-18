@@ -1,31 +1,50 @@
 import React, { Component } from 'react'
 
 const GifGrid = ({ gifs }) => {
-  const children = gifs.map((gif) => {
-    return (<img key={gif.id} alt='' src={gif.images.fixed_width.url} />)
-  })
-  return <div>{children}</div>
 }
 
-export default class MainContent extends Component {
-  state = { gifs: undefined }
+import store from './gif-store'
+import connect from './store/connect'
 
-  async componentDidMount() {
-    const results = await fetch('http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=dc6zaTOxFJmzC')
-    const { data } = await results.json()
-    this.setState({ gifs: data })
+class GifBox extends Component {
+  render() {
+    const { gif, selectGifById } = this.props
+    const src = gif.selected ? null : gif.images.fixed_width.url
+    return (
+      <img onClick={() => selectGifById(gif.id)} key={gif.id} alt='' src={src} />
+    )
+  }
+}
+
+class MainContent extends Component {
+  componentWillMount() {
+    this.props.loadGifs()
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (nextProps.gifs == this.props.gifs) {
+      return false
+    }
+  return true
   }
 
   render() {
-    const { gifs } = this.state
+    const { gifs, searchText, selectGifById } = this.props
     if (!gifs) {
       return <div>Click a gif topic</div>
     }
+    const gifImgs = gifs.map((gif) => {
+      return <GifBox gif={gif} selectGifById={selectGifById} />
+    })
     return (
       <div className='panel'>
-        <h3>You searched for: 'funny cat'</h3> 
-        <GifGrid gifs={gifs} />
+        <h3>You searched for: {searchText}</h3>
+        <div>
+          {gifImgs}
+        </div>
       </div>
     )
   }
 }
+
+export default connect(store)(MainContent)

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { style } from './style'
 
 const sheet = {
@@ -14,36 +14,30 @@ const sheet = {
   }
 }
 
-import { Store } from './store'
+import store from './gif-store'
 import connect from './store/connect'
 
-class GifStore extends Store {
-  setSearchText(searchText) {
-    this.setState({ searchText })
-  }
-}
-
-const store = new GifStore({ searchText: '' })
-
 class Toolbar extends Component {
-  state = { searchText: '' }
+  static propTypes = {
+    searchText: PropTypes.string,
+    setSearchText: PropTypes.func,
+    loadGifs: PropTypes.func,
+  }
+
   onSearchChange = (e) => {
     const { value } = e.target
-    this.setState({ searchText: value })
+    this.props.setSearchText(value)
   }
 
   onSearchSubmit = (e) => {
-    const { searchText } = this.state
-
     e.stopPropagation()
     e.preventDefault()
 
-    alert(`I should search for ${this.state.searchText}`)
+    this.props.loadGifs()
   }
 
   render() {
-    const { classes } = this.props
-    const { searchText } = this.state
+    const { classes, searchText } = this.props
 
     return (
       <div className={classes.container}>
@@ -61,4 +55,5 @@ class Toolbar extends Component {
   }
 }
 
-export default style(sheet)(Toolbar)
+const storeConnector = connect(store)
+export default storeConnector(style(sheet)(Toolbar))
