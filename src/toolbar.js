@@ -23,7 +23,7 @@ class GifStore extends Store {
   }
 }
 
-const store = new GifStore()
+const store = new GifStore({ searchText: '' })
 
 class Toolbar extends Component {
   state = { searchText: '' }
@@ -33,8 +33,11 @@ class Toolbar extends Component {
   }
 
   onSearchSubmit = (e) => {
+    const { searchText } = this.state
+
     e.stopPropagation()
     e.preventDefault()
+
     alert(`I should search for ${this.state.searchText}`)
   }
 

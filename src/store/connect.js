@@ -1,6 +1,7 @@
 import React from 'react'
 
 const connect = store => ChildComponent => {
+
   const actions = { }
 
   Object
@@ -9,6 +10,11 @@ const connect = store => ChildComponent => {
     .forEach(key => actions[key] = store[key].bind(store))
 
   class ConnectedComponent extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state = store.state
+    }
+
     componentWillMount() {
       this.unsubscribe = store.subscribe((state) => this.setState(state))
     }
@@ -26,6 +32,10 @@ const connect = store => ChildComponent => {
       return React.createElement(ChildComponent, childProps, this.props.children)
     }
   }
+
+  // TODO - hoist non-react statics
+
+  return ConnectedComponent
 }
 
 export default connect

@@ -23,6 +23,7 @@ export default class MainContent extends Component {
     }
     return (
       <div className='panel'>
+        <h3>You searched for: 'funny cat'</h3> 
         <GifGrid gifs={gifs} />
       </div>
     )
